@@ -49,11 +49,13 @@ year.addEventListener("change", e =>{
 
 minimo.addEventListener("change", e =>{
     datosBusqueda.min = e.target.value;
+    filtrarAuto();
 
 });
 
 maximo.addEventListener("change", e =>{
     datosBusqueda.max = e.target.value;
+    filtrarAuto();
     
 });
 
@@ -103,7 +105,7 @@ function llenarSelect() {
 
 //Función que filtra en base a la búsqueda en datosBusqueda.marca;
 function filtrarAuto() {
-    const resultado = autos.filter(filtrarMarca).filter(filtrarYear); //Acepta chaining
+    const resultado = autos.filter(filtrarMarca).filter(filtrarYear).filter(filtrarMinimo).filter(filtrarMaximo); //Acepta chaining
     console.log(resultado);
     mostrarAutos(resultado);
 }
@@ -121,5 +123,21 @@ function filtrarYear(auto) {
     if( year ){
         return auto.year === year;
     }
+    return autos;
+}
+
+function filtrarMinimo(auto) {
+    const { min } = datosBusqueda;
+    if( min ){
+        return auto.precio >= min;
+    }
+    return autos;
+}
+
+function filtrarMaximo(auto) {
+    const { max } = datosBusqueda;
+    if(max){
+        return auto.precio <= max;
+    } 
     return autos;
 }
